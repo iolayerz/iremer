@@ -1,0 +1,273 @@
+<html>
+<head>
+    <title>iRemer Remote Control</title>
+    <style>
+        table, th, td {
+          border: 1px solid black;
+          border-collapse: collapse;
+        }
+        
+        input[type=submit]{
+          width: 100px;  height: 50px;
+        }
+
+        .custom-button {
+          height: 50px;
+          width: 100px;
+        }
+    </style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+function requestUpdate() {                        
+console.log("DEBUG: requesting update");
+
+$.getJSON('/_refresh', function(result) {      
+   console.log("DEBUG: Received " + result.data);
+   var HTML2 = result.data;
+   $("#culist").html(HTML2);
+});
+}
+
+$(document).ready(function() {
+
+requestUpdate();
+setInterval(requestUpdate, 1000); 
+    
+var interval;
+var timeout;
+
+//----------------------------------------------Forward Trigger
+$("#fwd").on("mousedown", function(){
+  forward();
+  timeout = setTimeout(function(){
+    interval = setInterval(function(){
+      forward();
+    }, 500);
+  }, 500);
+});
+
+$("#fwd").on("mouseup", function(){
+  clearTimeout(timeout);
+  clearInterval(interval);
+});
+
+$("#fwd").on("touchstart", function(){
+  forward();
+  timeout = setTimeout(function(){
+    interval = setInterval(function(){
+      forward();
+    }, 500);
+  }, 500);
+});
+
+$("#fwd").on("touchend", function(){
+  clearTimeout(timeout);
+  clearInterval(interval);
+});
+
+function forward(){
+    $.ajax({
+          data : {
+            moveCmd : 'FORWARD',
+          },
+          type : 'POST',
+          url : '/'
+        })
+}
+
+//----------------------------------------------Left Trigger
+$("#lft").on("mousedown", function(){
+  left();
+  timeout = setTimeout(function(){
+    interval = setInterval(function(){
+      left();
+    }, 500);
+  }, 500);
+});
+
+$("#lft").on("mouseup", function(){
+  clearTimeout(timeout);
+  clearInterval(interval);
+});
+
+$("#lft").on("touchstart", function(){
+  left();
+  timeout = setTimeout(function(){
+    interval = setInterval(function(){
+      left();
+    }, 500);
+  }, 500);
+});
+
+$("#lft").on("touchend", function(){
+  clearTimeout(timeout);
+  clearInterval(interval);
+});
+
+function left(){
+    $.ajax({
+          data : {
+            moveCmd : 'LEFT',
+          },
+          type : 'POST',
+          url : '/'
+        })
+}
+
+//----------------------------------------------Stop Trigger
+$("#stop").on("mousedown", function(){
+  stop();
+  timeout = setTimeout(function(){
+    interval = setInterval(function(){
+      stop();
+    }, 500);
+  }, 500);
+});
+
+$("#stop").on("mouseup", function(){
+  clearTimeout(timeout);
+  clearInterval(interval);
+});
+
+$("#stop").on("touchstart", function(){
+  stop();
+  timeout = setTimeout(function(){
+    interval = setInterval(function(){
+      stop();
+    }, 500);
+  }, 500);
+});
+
+$("#stop").on("touchend", function(){
+  clearTimeout(timeout);
+  clearInterval(interval);
+});
+
+function stop(){
+    $.ajax({
+          data : {
+            moveCmd : 'STOP',
+          },
+          type : 'POST',
+          url : '/'
+        })
+}
+
+//----------------------------------------------Right Trigger
+$("#rgt").on("mousedown", function(){
+  right();
+  timeout = setTimeout(function(){
+    interval = setInterval(function(){
+      right();
+    }, 500);
+  }, 500);
+});
+
+$("#rgt").on("mouseup", function(){
+  clearTimeout(timeout);
+  clearInterval(interval);
+});
+
+$("#rgt").on("touchstart", function(){
+  right();
+  timeout = setTimeout(function(){
+    interval = setInterval(function(){
+      right();
+    }, 500);
+  }, 500);
+});
+
+$("#rgt").on("touchend", function(){
+  clearTimeout(timeout);
+  clearInterval(interval);
+});
+
+function right(){
+    $.ajax({
+          data : {
+            moveCmd : 'RIGHT',
+          },
+          type : 'POST',
+          url : '/'
+        })
+}
+
+//----------------------------------------------Backward Trigger
+$("#bwd").on("mousedown", function(){
+  backward();
+  timeout = setTimeout(function(){
+    interval = setInterval(function(){
+      backward();
+    }, 500);
+  }, 500);
+});
+
+$("#bwd").on("mouseup", function(){
+  clearTimeout(timeout);
+  clearInterval(interval);
+});
+
+$("#bwd").on("touchstart", function(){
+  backward();
+  timeout = setTimeout(function(){
+    interval = setInterval(function(){
+      backward();
+    }, 500);
+  }, 500);
+});
+
+$("#bwd").on("touchend", function(){
+  clearTimeout(timeout);
+  clearInterval(interval);
+});
+
+function backward(){
+    $.ajax({
+          data : {
+            moveCmd : 'BACKWARD',
+          },
+          type : 'POST',
+          url : '/'
+        })
+}
+
+});
+
+</script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8  offset-lg-2">
+            <h1 class="mt-5"><center>iRemer Remote Control v1.0</center></h1>
+        <table align="center" width="1300 px">
+        <tr>
+        <td align="center" width="340 px">
+            <img src="{{ url_for('video_feed') }}" height="280 px" width="340 px">
+        </td>
+        <td align="center" width="560 px">
+            <img src="http://photos.wikimapia.org/p/00/01/18/23/46_big.jpg" height="150px" width="150px"><br></br>
+            <hr><b>Remote Control Buttons</b><hr><br>
+                <input type="button" class="custom-button" id="fwd" value="FORWARD"></br></br>
+                <input type="button" class="custom-button" id="lft" value="LEFT"> &nbsp;&nbsp;&nbsp;
+                <input type="button" class="custom-button" id="stop" value="STOP"> &nbsp;&nbsp;&nbsp;
+                <input type="button" class="custom-button" id="rgt" value="RIGHT"> </br></br>
+                <input type="button" class="custom-button" id="bwd" value="BACKWARD"></br></br>
+                <center><b>Face detected</b><div id="culist"></div></center>
+        </td>
+        <td align="center" width="340 px">
+          <img src="{{ url_for('video_feed2') }}" height="280 px" width="340 px">
+        </td>
+        </tr>
+        </table>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

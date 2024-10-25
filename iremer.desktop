@@ -1,0 +1,4 @@
+[Desktop Entry]
+Type=Application
+Name=iRemerIP
+Exec=python3 /home/iremer/Desktop/IREMER/ipaddressiremer.py

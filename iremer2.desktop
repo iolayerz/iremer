@@ -1,0 +1,4 @@
+[Desktop Entry]
+Type=Application
+Name=iRemerWebApp
+Exec=python3 /home/iremer/Desktop/IREMER/app4.py
